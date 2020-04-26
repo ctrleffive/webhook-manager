@@ -1,0 +1,13 @@
+{
+  "name": "webhook-manager-api",
+  "version": "1.0.0",
+  "description": "Webhook Manager API",
+  "main": "index.js",
+  "repository": "git@github.com:ctrleffive/webhook-manager.git",
+  "author": "Chandu J S",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "mongodb": "^3.5.6"
+  }
+}
