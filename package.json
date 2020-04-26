@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Webhook Manager API",
   "main": "index.js",
+  "scripts": {
+    "build": "echo 'Success!'"
+  },
   "repository": "git@github.com:ctrleffive/webhook-manager.git",
   "author": "Chandu J S",
   "license": "MIT",
