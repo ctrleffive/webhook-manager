@@ -11,7 +11,7 @@ module.exports = async () => {
   const client = await MongoClient.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
   })
-  const db = await client.db(url.parse(uri).pathname.substr(1))
+  const db = await client.db(url.parse(process.env.MONGODB_URI).pathname.substr(1))
 
   cachedDb = db
   return db
