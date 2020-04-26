@@ -1,11 +1,13 @@
-const dbConnection = require('../helpers/db')
+// const dbConnection = require('../helpers/db')
+const firebase = require('../helpers/firebase')
 
 module.exports = async (req, res) => {
-  const db = await dbConnection()
+  const admin = firebase()
+  // const db = await dbConnection()
 
-  const collection = await db.collection('users')
+  console.log((await admin).SDK_VERSION)
 
-  const users = await collection.find({}).toArray()
-
-  res.status(200).json({ users })
+  res.status(200).json({})
+  // const collection = await db.collection('outgoings')
+  // const users = await collection.find({}).toArray()
 }
