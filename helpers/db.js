@@ -1,18 +1,33 @@
-// Import Dependencies
-const url = require('url')
-const MongoClient = require('mongodb').MongoClient
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const schemaOptions = {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+}
 
-let cachedDb = null
+let conn = null
 
 module.exports = async () => {
-  if (cachedDb) {
-    return cachedDb
+  if (conn) {
+    return conn
   }
-  const client = await MongoClient.connect(process.env.MONGODB_URI, {
+  conn = mongoose.connect(process.env.MONGODB_URI, {
+    bufferCommands: false,
+    bufferMaxEntries: 0,
     useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-  const db = await client.db(url.parse(process.env.MONGODB_URI).pathname.substr(1))
+  await conn
 
-  cachedDb = db
-  return db
+  // Define models
+  const Outgoing = mongoose.model(
+    'Outgoing',
+    new Schema({
+      eventName: String,
+      schemaOptions,
+    })
+  )
+
+  return {
+    Outgoing,
+  }
 }

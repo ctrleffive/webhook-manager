@@ -3,7 +3,7 @@ const serviceAccount = require('../firebase.json')
 
 let firebaseInitialized = false
 
-module.exports = async () => {
+module.exports = () => {
   if (!firebaseInitialized) {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
