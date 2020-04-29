@@ -8,14 +8,56 @@ module.exports = async (req, res) => {
     const admin = firebase()
     const decodedToken = await admin.auth().verifyIdToken(body.idToken)
 
-    const now = Date.now()
     if (decodedToken.exp > Date.now()) throw Error('Token expired!')
+    const uid = decodedToken.uid
 
     const db = await dbConnection()
 
-    const outgoings = await db.Outgoing.find()
+    for (const outgoing of body.outgoings) {
+      const id = outgoing.id
+      if (outgoing.deleted) {
+        await db.Outgoing.findByIdAndDelete(id)
+      } else if (id) {
+        await db.Outgoing.findByIdAndUpdate(id, outgoing)
+      } else {
+        outgoing.uid = uid
+        await db.Outgoing.create(outgoing)
+      }
+    }
 
-    res.json({ syncTime: now, outgoings })
+    for (const incoming of body.incomings) {
+      const id = incoming.id
+      if (incoming.deleted) {
+        await db.Incoming.findByIdAndDelete(id)
+      } else if (id) {
+        await db.Incoming.findByIdAndUpdate(id, incoming)
+      } else {
+        incoming.uid = uid
+        await db.Incoming.create(incoming)
+      }
+    }
+
+    for (const notification of body.notifications) {
+      if (notification.deleted) {
+        await db.Incoming.findByIdAndDelete(notification.id)
+      }
+    }
+
+    const syncTime = Date.now()
+    const outgoings = await db.Outgoing.find({
+      updatedAt: { $gte: new Date(body.lastSync) },
+      uid,
+    })
+    const incomings = await db.Incoming.find({
+      updatedAt: { $gte: new Date(body.lastSync) },
+      uid,
+    })
+    const notifications = await db.Notification.find({
+      updatedAt: { $gte: new Date(body.lastSync) },
+      uid,
+    })
+
+    res.json({ syncTime, outgoings, incomings, notifications })
   } catch (error) {
     res.json({ error: error.message, code: error.code })
   }

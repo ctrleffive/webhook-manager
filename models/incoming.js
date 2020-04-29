@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const modelSchema = new Schema(
   {
-    uId: Schema.Types.String,
+    uid: Schema.Types.String,
     url: Schema.Types.String,
     eventName: Schema.Types.String,
   },

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const modelSchema = new Schema(
   {
     url: Schema.Types.String,
-    uId: Schema.Types.String,
+    uid: Schema.Types.String,
     method: Schema.Types.Number,
     headers: Schema.Types.String,
     payload: Schema.Types.String,
