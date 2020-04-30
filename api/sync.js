@@ -44,14 +44,28 @@ module.exports = async (req, res) => {
     }
 
     const syncTime = new Date()
-    const outgoings = await db.Outgoing.find({
-      updatedAt: { $gte: new Date(body.lastSync) },
-      uid,
+    const outgoings = (
+      await db.Outgoing.find({
+        updatedAt: { $gte: new Date(body.lastSync) },
+        uid,
+      })
+    ).filter((item) => {
+      return !body.outgoings
+        .map((innerItem) => innerItem.eventName)
+        .includes(item.eventName)
     })
-    const incomings = await db.Incoming.find({
-      updatedAt: { $gte: new Date(body.lastSync) },
-      uid,
+
+    const incomings = (
+      await db.Incoming.find({
+        updatedAt: { $gte: new Date(body.lastSync) },
+        uid,
+      })
+    ).filter((item) => {
+      return !body.incomings
+        .map((innerItem) => innerItem.eventName)
+        .includes(item.eventName)
     })
+
     const notifications = await db.Notification.find({
       updatedAt: { $gte: new Date(body.lastSync) },
       uid,
