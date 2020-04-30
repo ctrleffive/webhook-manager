@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 // Models
+const Device = require('../models/device')
 const Outgoing = require('../models/outgoing')
 const Incoming = require('../models/incoming')
 const Notification = require('../models/notification')
@@ -14,5 +15,5 @@ module.exports = async () => {
   })
   await conn
 
-  return { Outgoing, Incoming, Notification }
+  return { Device, Outgoing, Incoming, Notification }
 }
