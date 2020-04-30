@@ -3,7 +3,7 @@ const dbConnection = require('../helpers/db')
 
 module.exports = async (req, res) => {
   try {
-    const { body } = req
+    const body = JSON.parse(req.body)
 
     const admin = firebase()
     const decodedToken = await admin.auth().verifyIdToken(body.idToken)
