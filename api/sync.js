@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    const syncTime = Date.now()
+    const syncTime = new Date()
     const outgoings = await db.Outgoing.find({
       updatedAt: { $gte: new Date(body.lastSync) },
       uid,
