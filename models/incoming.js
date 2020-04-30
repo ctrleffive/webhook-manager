@@ -6,6 +6,7 @@ const modelSchema = new Schema(
   {
     uid: Schema.Types.String,
     url: Schema.Types.String,
+    hookId: Schema.Types.String,
     eventName: Schema.Types.String,
   },
   { timestamps: true }
