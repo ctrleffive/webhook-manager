@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
 
     for (const notification of body.notifications) {
       if (notification.deleted) {
-        await db.Incoming.findByIdAndDelete(notification.id)
+        await db.Notification.findByIdAndDelete(notification.id)
       }
     }
 
