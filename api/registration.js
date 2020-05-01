@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     const token = body.token
 
     const db = await dbConnection()
-    const existingItem = await db.Device.findOneAndUpdate({ token }, { uid })
+    const existingItem = await db.Device.findOneAndUpdate({ uid }, { token })
     if (!existingItem) await db.Device.create({ uid, token })
 
     res.json({ success: true })
