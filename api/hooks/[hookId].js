@@ -20,13 +20,11 @@ module.exports = async (req, res) => {
       headers: JSON.stringify(req.headers),
     })
 
-    const tokens = (await db.Device.find({ uid: incomingData.uid })).map(
-      (item) => item.token
-    )
+    const device = await db.Device.find({ uid: incomingData.uid })
 
-    if (tokens.length) {
-      await admin.messaging().sendMulticast({
-        tokens,
+    if (device) {
+      await admin.messaging().send({
+        token: device.token,
         data: { notification: JSON.stringify(data) },
         notification: {
           title: `Webhook ${incomingData.eventName} called!`,
