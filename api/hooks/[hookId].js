@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
       headers: JSON.stringify(req.headers),
     })
 
-    const device = await db.Device.find({ uid: incomingData.uid })
+    const device = await db.Device.findOne({ uid: incomingData.uid })
 
     if (device) {
       await admin.messaging().send({
