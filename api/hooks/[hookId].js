@@ -12,14 +12,13 @@ module.exports = async (req, res) => {
 
     if (!incomingData) throw Error('No event found!')
 
-    const data = {
+    const data = await db.Notification.create({
       uid: incomingData.uid,
       eventName: incomingData.eventName,
       method: methods.indexOf(req.method.toLowerCase()),
       payload: JSON.stringify(req.body),
       headers: JSON.stringify(req.headers),
-    }
-    await db.Notification.create(data)
+    })
     const tokens = (await db.Device.find({ uid: incomingData.uid })).map(
       (item) => item.token
     )
